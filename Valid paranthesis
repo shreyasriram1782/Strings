@@ -1,0 +1,46 @@
+Algorithm:
+1. Have a map for the opening and closing brackets like this:
+  {')': '(', '}': '{', ']': '['}
+2. Have a stack when iterating through the brackets.
+3. So whenever you get a open bracket while iterating through the string just aadd into stack. 
+Just so that we can verify the stack is empty or not at end and say that if stack is empty the string is valid else not.
+4. if you get a closed bracket you have to see if map[i] it matches with top element popped from stack i.e we get a set of open and close. 
+  if its not same return false then and there itself
+  (or) one more condition for returning false is when you get a closed bracket and the stack is empty then also  return false then and there itself
+5. at the end see if stack is empty or not return accordingly. 
+Time complexity:O(n), where n is the length of the input string s. This is because we iterate through each character of the string once.
+The space complexity is also O(n), where n is the length of the input string s. 
+This is because in the worst case, we might need to store all opening parentheses in the stack before encountering their corresponding closing parentheses.
+
+Code:
+
+def isValid(s: str) -> bool:
+    stack = []
+    # Mapping of closing brackets to their corresponding opening brackets
+    brackets_map = {')': '(', '}': '{', ']': '['}
+
+    for char in s:
+        if char in brackets_map.values():
+            # If the character is an opening bracket, push it onto the stack
+            stack.append(char)
+        elif char in brackets_map.keys():
+            # If the character is a closing bracket
+            if not stack or brackets_map[char] != stack.pop():
+                # If the stack is empty or the corresponding opening bracket does not match
+                return False
+        else:
+            # If the character is not a valid bracket
+            return False
+    
+    # If there are remaining elements in the stack, it means some brackets were not closed
+    return len(stack) == 0
+
+# Example usage:
+print(isValid("()"))   # Output: True
+print(isValid("()[]{}"))   # Output: True
+print(isValid("(]"))   # Output: False
+print(isValid("([)]"))   # Output: False
+print(isValid("{[]}"))   # Output: True
+
+        
+  
